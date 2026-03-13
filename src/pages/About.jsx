@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const About = () => {
   const features = [
@@ -16,6 +16,285 @@ const About = () => {
     { category: 'Database', items: ['SQLite', 'Thread-safe operations'] },
     { category: 'Security', items: ['JWT tokens', 'Password hashing', 'CORS enabled'] },
   ];
+
+  const endpointCards = [
+    {
+      title: 'Authentication',
+      icon: 'shield-lock',
+      lg: 6,
+      endpoints: [
+        {
+          method: 'POST',
+          methodClass: 'success',
+          path: '/register',
+          description: 'Register new user',
+          payload: '{\n  "name": "John Doe",\n  "email": "john@example.com",\n  "age": 25,\n  "password": "StrongPass@123"\n}',
+        },
+        {
+          method: 'POST',
+          methodClass: 'success',
+          path: '/login',
+          description: 'User login (returns JWT)',
+          payload: '{\n  "email": "admin@example.com",\n  "password": "Admin@123"\n}',
+        },
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/me',
+          description: 'Get current user profile',
+          payload: 'No request body required.\nRequired header:\nAuthorization: Bearer <token>',
+        },
+        {
+          method: 'PUT',
+          methodClass: 'warning text-dark',
+          path: '/me',
+          description: 'Update current user profile',
+          payload: '{\n  "name": "Updated Name",\n  "email": "updated@example.com",\n  "age": 26,\n  "password": "NewPass@123"\n}\n\nAny field is optional.',
+        },
+      ],
+    },
+    {
+      title: 'User Management',
+      icon: 'people',
+      lg: 6,
+      endpoints: [
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/users',
+          description: 'List all users (paginated)',
+          payload: 'No request body required.\nOptional query params:\npage, per_page, sort_by, sort_order, role',
+        },
+        {
+          method: 'POST',
+          methodClass: 'success',
+          path: '/users',
+          description: 'Create user (Admin)',
+          payload: '{\n  "name": "Sara Tester",\n  "email": "sara@example.com",\n  "age": 29,\n  "password": "Sara@123",\n  "role": "user"\n}',
+        },
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/users/:id',
+          description: 'Get user by ID',
+          payload: 'No request body required.\nPath param: id',
+        },
+        {
+          method: 'PUT',
+          methodClass: 'warning text-dark',
+          path: '/users/:id',
+          description: 'Update user',
+          payload: '{\n  "name": "Updated Name",\n  "email": "updated@example.com",\n  "age": 30,\n  "role": "admin",\n  "password": "Strong@123"\n}\n\nAny field is optional.',
+        },
+        {
+          method: 'DELETE',
+          methodClass: 'danger',
+          path: '/users/:id',
+          description: 'Delete user (Admin)',
+          payload: 'No request body required.\nPath param: id',
+        },
+      ],
+    },
+    {
+      title: 'Projects',
+      icon: 'kanban',
+      lg: 6,
+      endpoints: [
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/projects',
+          description: 'List all projects',
+          payload: 'No request body required.\nOptional query params:\npage, per_page, sort_by, sort_order, q, status, owner_id',
+        },
+        {
+          method: 'POST',
+          methodClass: 'success',
+          path: '/projects',
+          description: 'Create project',
+          payload: '{\n  "title": "Website Redesign",\n  "description": "Revamp landing pages and improve conversion funnel.",\n  "status": "active"\n}',
+        },
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/projects/:id',
+          description: 'Get project by ID',
+          payload: 'No request body required.\nPath param: id',
+        },
+        {
+          method: 'PUT',
+          methodClass: 'warning text-dark',
+          path: '/projects/:id',
+          description: 'Update project',
+          payload: '{\n  "title": "Website Redesign v2",\n  "description": "Updated project scope",\n  "status": "on_hold"\n}\n\nAny field is optional.',
+        },
+        {
+          method: 'PATCH',
+          methodClass: 'secondary',
+          path: '/projects/:id/archive',
+          description: 'Archive project',
+          payload: 'No request body required.\nPath param: id',
+        },
+        {
+          method: 'DELETE',
+          methodClass: 'danger',
+          path: '/projects/:id',
+          description: 'Delete project',
+          payload: 'No request body required.\nPath param: id',
+        },
+      ],
+    },
+    {
+      title: 'Tasks',
+      icon: 'list-check',
+      lg: 6,
+      endpoints: [
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/tasks',
+          description: 'List all tasks (filterable)',
+          payload: 'No request body required.\nOptional query params:\npage, per_page, sort_by, sort_order, q, project_id, assigned_to, created_by, status, priority, overdue',
+        },
+        {
+          method: 'POST',
+          methodClass: 'success',
+          path: '/tasks',
+          description: 'Create task',
+          payload: '{\n  "title": "Design hero section",\n  "description": "Create responsive hero section variants",\n  "project_id": 1,\n  "status": "todo",\n  "priority": "high",\n  "assigned_to": 2,\n  "estimated_hours": 6,\n  "due_date": "2026-03-20",\n  "tags": ["ui", "design"]\n}',
+        },
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/tasks/:id',
+          description: 'Get task by ID',
+          payload: 'No request body required.\nPath param: id',
+        },
+        {
+          method: 'PUT',
+          methodClass: 'warning text-dark',
+          path: '/tasks/:id',
+          description: 'Update task',
+          payload: '{\n  "title": "Updated Task Title",\n  "description": "Updated task details",\n  "status": "in_progress",\n  "priority": "critical",\n  "assigned_to": 3,\n  "estimated_hours": 8,\n  "due_date": "2026-03-25",\n  "tags": "frontend,urgent"\n}\n\nAny field is optional.',
+        },
+        {
+          method: 'PATCH',
+          methodClass: 'secondary',
+          path: '/tasks/:id/status',
+          description: 'Update task status/priority',
+          payload: '{\n  "status": "done",\n  "priority": "medium"\n}\n\nOnly status and priority allowed.',
+        },
+        {
+          method: 'PATCH',
+          methodClass: 'secondary',
+          path: '/tasks/bulk-update',
+          description: 'Bulk update tasks (Admin)',
+          payload: '{\n  "task_ids": [1, 2, 3],\n  "status": "in_review",\n  "priority": "high",\n  "assigned_to": 2\n}',
+        },
+        {
+          method: 'DELETE',
+          methodClass: 'danger',
+          path: '/tasks/:id',
+          description: 'Delete task',
+          payload: 'No request body required.\nPath param: id',
+        },
+      ],
+    },
+    {
+      title: 'Comments',
+      icon: 'chat-left-text',
+      lg: 4,
+      endpoints: [
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/tasks/:id/comments',
+          description: 'List comments',
+          payload: 'No request body required.\nPath param: id (task id)',
+        },
+        {
+          method: 'POST',
+          methodClass: 'success',
+          path: '/tasks/:id/comments',
+          description: 'Add comment',
+          payload: '{\n  "content": "Please attach final wireframes before EOD."\n}',
+        },
+        {
+          method: 'DELETE',
+          methodClass: 'danger',
+          path: '/comments/:id',
+          description: 'Delete comment',
+          payload: 'No request body required.\nPath param: id (comment id)',
+        },
+      ],
+    },
+    {
+      title: 'Analytics & Audit',
+      icon: 'bar-chart',
+      lg: 4,
+      endpoints: [
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/analytics/summary',
+          description: 'Dashboard stats',
+          payload: 'No request body required.',
+        },
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/audit-logs',
+          description: 'Activity audit trail',
+          payload: 'No request body required.\nOptional query params:\npage, per_page, sort_by, sort_order, entity_type, action, actor_id',
+        },
+      ],
+    },
+    {
+      title: 'Utilities',
+      icon: 'tools',
+      lg: 4,
+      endpoints: [
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/health',
+          description: 'API health check',
+          payload: 'No request body required.',
+        },
+        {
+          method: 'GET',
+          methodClass: 'info',
+          path: '/error',
+          description: 'Simulate server error',
+          payload: 'No request body required.',
+        },
+        {
+          method: 'POST',
+          methodClass: 'success',
+          path: '/reset',
+          description: 'Reset database to seed data',
+          payload: 'No request body required.',
+        },
+      ],
+    },
+  ];
+
+  const renderPayloadBadge = (payload, id) => (
+    <OverlayTrigger
+      placement="top"
+      overlay={
+        <Tooltip id={`payload-${id}`}>
+          <div className="text-start" style={{ whiteSpace: 'pre-line', maxWidth: '320px' }}>
+            {payload}
+          </div>
+        </Tooltip>
+      }
+    >
+      <Badge bg="dark" pill style={{ cursor: 'help' }}>
+        Payload
+      </Badge>
+    </OverlayTrigger>
+  );
 
   return (
     <Container fluid>
@@ -110,128 +389,31 @@ const About = () => {
         </Col>
       </Row>
 
-      {/* Auth & Profile */}
-      <Row className="mb-3">
-        <Col lg={6} className="mb-3">
-          <Card className="border-0 shadow-sm h-100">
-            <Card.Body className="p-4">
-              <h6 className="fw-bold text-primary mb-3">
-                <i className="bi bi-shield-lock me-2"></i>Authentication
-              </h6>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/register — Register new user</li>
-                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/login — User login (returns JWT)</li>
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/me — Get current user profile</li>
-                <li className="mb-0"><span className="badge bg-warning text-dark me-2">PUT</span>/me — Update current user profile</li>
-              </ul>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        {/* User Management */}
-        <Col lg={6} className="mb-3">
-          <Card className="border-0 shadow-sm h-100">
-            <Card.Body className="p-4">
-              <h6 className="fw-bold text-primary mb-3">
-                <i className="bi bi-people me-2"></i>User Management
-              </h6>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/users — List all users (paginated)</li>
-                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/users — Create user <span className="text-muted small">(Admin)</span></li>
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/users/:id — Get user by ID</li>
-                <li className="mb-2"><span className="badge bg-warning text-dark me-2">PUT</span>/users/:id — Update user</li>
-                <li className="mb-0"><span className="badge bg-danger me-2">DELETE</span>/users/:id — Delete user <span className="text-muted small">(Admin)</span></li>
-              </ul>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-
-      {/* Projects & Tasks */}
-      <Row className="mb-3">
-        <Col lg={6} className="mb-3">
-          <Card className="border-0 shadow-sm h-100">
-            <Card.Body className="p-4">
-              <h6 className="fw-bold text-primary mb-3">
-                <i className="bi bi-kanban me-2"></i>Projects
-              </h6>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/projects — List all projects</li>
-                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/projects — Create project</li>
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/projects/:id — Get project by ID</li>
-                <li className="mb-2"><span className="badge bg-warning text-dark me-2">PUT</span>/projects/:id — Update project</li>
-                <li className="mb-2"><span className="badge bg-secondary me-2">PATCH</span>/projects/:id/archive — Archive project</li>
-                <li className="mb-0"><span className="badge bg-danger me-2">DELETE</span>/projects/:id — Delete project <span className="text-muted small">(Admin)</span></li>
-              </ul>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col lg={6} className="mb-3">
-          <Card className="border-0 shadow-sm h-100">
-            <Card.Body className="p-4">
-              <h6 className="fw-bold text-primary mb-3">
-                <i className="bi bi-list-check me-2"></i>Tasks
-              </h6>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/tasks — List all tasks (filterable)</li>
-                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/tasks — Create task</li>
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/tasks/:id — Get task by ID</li>
-                <li className="mb-2"><span className="badge bg-warning text-dark me-2">PUT</span>/tasks/:id — Update task</li>
-                <li className="mb-2"><span className="badge bg-secondary me-2">PATCH</span>/tasks/:id/status — Update task status</li>
-                <li className="mb-2"><span className="badge bg-secondary me-2">PATCH</span>/tasks/bulk-update — Bulk update tasks</li>
-                <li className="mb-0"><span className="badge bg-danger me-2">DELETE</span>/tasks/:id — Delete task</li>
-              </ul>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-
-      {/* Comments, Analytics, Utilities */}
       <Row className="mb-4">
-        <Col lg={4} className="mb-3">
-          <Card className="border-0 shadow-sm h-100">
-            <Card.Body className="p-4">
-              <h6 className="fw-bold text-primary mb-3">
-                <i className="bi bi-chat-left-text me-2"></i>Comments
-              </h6>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/tasks/:id/comments — List comments</li>
-                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/tasks/:id/comments — Add comment</li>
-                <li className="mb-0"><span className="badge bg-danger me-2">DELETE</span>/comments/:id — Delete comment</li>
-              </ul>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col lg={4} className="mb-3">
-          <Card className="border-0 shadow-sm h-100">
-            <Card.Body className="p-4">
-              <h6 className="fw-bold text-primary mb-3">
-                <i className="bi bi-bar-chart me-2"></i>Analytics & Audit
-              </h6>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/analytics/summary — Dashboard stats</li>
-                <li className="mb-0"><span className="badge bg-info me-2">GET</span>/audit-logs — Activity audit trail</li>
-              </ul>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col lg={4} className="mb-3">
-          <Card className="border-0 shadow-sm h-100">
-            <Card.Body className="p-4">
-              <h6 className="fw-bold text-primary mb-3">
-                <i className="bi bi-tools me-2"></i>Utilities
-              </h6>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/health — API health check</li>
-                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/error — Simulate server error</li>
-                <li className="mb-0"><span className="badge bg-success me-2">POST</span>/reset — Reset database to seed data</li>
-              </ul>
-            </Card.Body>
-          </Card>
-        </Col>
+        {endpointCards.map((card, cardIdx) => (
+          <Col key={card.title} lg={card.lg} className="mb-3">
+            <Card className="border-0 shadow-sm h-100">
+              <Card.Body className="p-4">
+                <h6 className="fw-bold text-primary mb-3">
+                  <i className={`bi bi-${card.icon} me-2`}></i>
+                  {card.title}
+                </h6>
+                <ul className="list-unstyled mb-0">
+                  {card.endpoints.map((endpoint, endpointIdx) => {
+                    const key = `${cardIdx}-${endpointIdx}`;
+                    return (
+                      <li key={key} className={endpointIdx === card.endpoints.length - 1 ? 'mb-0' : 'mb-2'}>
+                        <span className={`badge bg-${endpoint.methodClass} me-2`}>{endpoint.method}</span>
+                        {endpoint.path} — {endpoint.description}
+                        <span className="ms-2">{renderPayloadBadge(endpoint.payload, key)}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
 
       {/* Version Info */}
