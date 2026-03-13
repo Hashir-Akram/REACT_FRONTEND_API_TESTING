@@ -279,13 +279,25 @@ const About = () => {
     },
   ];
 
-  const renderPayloadBadge = (payload, id) => (
+  const isAuthRequired = (path) => {
+    const publicPaths = ['/register', '/login', '/health', '/error', '/reset'];
+    return !publicPaths.includes(path);
+  };
+
+  const renderPayloadBadge = (payload, id, path) => (
+    {
+      const authRequired = isAuthRequired(path);
+      const authText = authRequired
+        ? 'Auth Required: Yes\\nToken: Bearer token required in Authorization header\\n\\n'
+        : 'Auth Required: No\\nToken: Not required\\n\\n';
+
+      return (
     <OverlayTrigger
       placement="top"
       overlay={
         <Tooltip id={`payload-${id}`}>
           <div className="text-start" style={{ whiteSpace: 'pre-line', maxWidth: '320px' }}>
-            {payload}
+            {authText + payload}
           </div>
         </Tooltip>
       }
@@ -294,6 +306,8 @@ const About = () => {
         Payload
       </Badge>
     </OverlayTrigger>
+      );
+    }
   );
 
   return (
@@ -405,7 +419,7 @@ const About = () => {
                       <li key={key} className={endpointIdx === card.endpoints.length - 1 ? 'mb-0' : 'mb-2'}>
                         <span className={`badge bg-${endpoint.methodClass} me-2`}>{endpoint.method}</span>
                         {endpoint.path} — {endpoint.description}
-                        <span className="ms-2">{renderPayloadBadge(endpoint.payload, key)}</span>
+                        <span className="ms-2">{renderPayloadBadge(endpoint.payload, key, endpoint.path)}</span>
                       </li>
                     );
                   })}
