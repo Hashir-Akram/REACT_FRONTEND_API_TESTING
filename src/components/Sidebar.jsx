@@ -12,6 +12,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
     { path: '/users', icon: 'people', label: 'Users', role: ['admin'] },
     { path: '/projects', icon: 'kanban', label: 'Projects', role: ['admin', 'user'] },
     { path: '/tasks', icon: 'list-check', label: 'Tasks', role: ['admin', 'user'] },
+    { path: '/test-scenarios', icon: 'window', label: 'Test Scenarios', role: ['admin', 'user'] },
     { path: '/activity', icon: 'activity', label: 'Activity Logs', role: ['admin'] },
     { path: '/profile', icon: 'person', label: 'Profile', role: ['admin', 'user'] },
     { path: '/about', icon: 'info-circle', label: 'About', role: ['admin', 'user'] },

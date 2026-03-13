@@ -10,6 +10,7 @@ import Projects from './pages/Projects'
 import Tasks from './pages/Tasks'
 import ActivityLogs from './pages/ActivityLogs'
 import About from './pages/About'
+import TestScenarios from './pages/TestScenarios'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/activity" element={<ActivityLogs />} />
             <Route path="/about" element={<About />} />
+            <Route path="/test-scenarios" element={<TestScenarios />} />
           </Route>
           
           {/* 404 */}
