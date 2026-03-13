@@ -284,31 +284,29 @@ const About = () => {
     return !publicPaths.includes(path);
   };
 
-  const renderPayloadBadge = (payload, id, path) => (
-    {
-      const authRequired = isAuthRequired(path);
-      const authText = authRequired
-        ? 'Auth Required: Yes\\nToken: Bearer token required in Authorization header\\n\\n'
-        : 'Auth Required: No\\nToken: Not required\\n\\n';
+  const renderPayloadBadge = (payload, id, path) => {
+    const authRequired = isAuthRequired(path);
+    const authText = authRequired
+      ? 'Auth Required: Yes\nToken: Bearer token required in Authorization header\n\n'
+      : 'Auth Required: No\nToken: Not required\n\n';
 
-      return (
-    <OverlayTrigger
-      placement="top"
-      overlay={
-        <Tooltip id={`payload-${id}`}>
-          <div className="text-start" style={{ whiteSpace: 'pre-line', maxWidth: '320px' }}>
-            {authText + payload}
-          </div>
-        </Tooltip>
-      }
-    >
-      <Badge bg="dark" pill style={{ cursor: 'help' }}>
-        Payload
-      </Badge>
-    </OverlayTrigger>
-      );
-    }
-  );
+    return (
+      <OverlayTrigger
+        placement="top"
+        overlay={
+          <Tooltip id={`payload-${id}`}>
+            <div className="text-start" style={{ whiteSpace: 'pre-line', maxWidth: '320px' }}>
+              {authText + payload}
+            </div>
+          </Tooltip>
+        }
+      >
+        <Badge bg="dark" pill style={{ cursor: 'help' }}>
+          Payload
+        </Badge>
+      </OverlayTrigger>
+    );
+  };
 
   return (
     <Container fluid>
