@@ -1,4 +1,4 @@
-import { Row, Col, Card } from 'react-bootstrap';
+import { Row, Col, Card, Table, Badge } from 'react-bootstrap';
 
 const UserDashboard = ({ user, stats }) => {
   const userInfo = [
@@ -61,19 +61,23 @@ const UserDashboard = ({ user, stats }) => {
             <Card.Body>
               <h5 className="fw-bold mb-3">
                 <i className="bi bi-graph-up me-2 text-success"></i>
-                System Statistics
+                My Work Summary
               </h5>
               <div className="d-flex justify-content-between mb-2">
-                <span>Total Users in System:</span>
-                <strong>{stats?.totalUsers}</strong>
+                <span>Assigned Tasks:</span>
+                <strong>{stats?.tasks?.assigned || 0}</strong>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span>Admin Users:</span>
-                <strong>{stats?.adminUsers}</strong>
+                <span>Created Tasks:</span>
+                <strong>{stats?.tasks?.created || 0}</strong>
+              </div>
+              <div className="d-flex justify-content-between mb-2">
+                <span>In Progress:</span>
+                <strong>{stats?.tasks?.in_progress || 0}</strong>
               </div>
               <div className="d-flex justify-content-between">
-                <span>Regular Users:</span>
-                <strong>{stats?.regularUsers}</strong>
+                <span>Owned Projects:</span>
+                <strong>{stats?.projects?.owned || 0}</strong>
               </div>
             </Card.Body>
           </Card>
@@ -91,13 +95,85 @@ const UserDashboard = ({ user, stats }) => {
                 Your account is active
               </p>
               <p className="mb-2">
-                <i className="bi bi-shield-check text-primary me-2"></i>
-                Your data is secure
+                <i className="bi bi-kanban text-primary me-2"></i>
+                Projects and tasks are available for hands-on testing
               </p>
               <p className="mb-0">
                 <i className="bi bi-clock text-warning me-2"></i>
                 Session expires in 1 hour
               </p>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={6} className="mb-3">
+          <Card className="border-0 shadow-sm h-100">
+            <Card.Body>
+              <h5 className="fw-bold mb-3">
+                <i className="bi bi-kanban me-2 text-primary"></i>
+                Recent Projects
+              </h5>
+              <Table responsive hover>
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Tasks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats?.projects?.recent?.map((project) => (
+                    <tr key={project.id}>
+                      <td>{project.title}</td>
+                      <td>
+                        <Badge bg={project.status === 'active' ? 'success' : 'secondary'}>
+                          {project.status}
+                        </Badge>
+                      </td>
+                      <td>{project.task_count}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col lg={6} className="mb-3">
+          <Card className="border-0 shadow-sm h-100">
+            <Card.Body>
+              <h5 className="fw-bold mb-3">
+                <i className="bi bi-list-check me-2 text-success"></i>
+                Recent Assigned Tasks
+              </h5>
+              <Table responsive hover>
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats?.tasks?.recent?.map((task) => (
+                    <tr key={task.id}>
+                      <td>{task.title}</td>
+                      <td>
+                        <Badge bg={task.status === 'done' ? 'success' : task.status === 'blocked' ? 'danger' : 'warning'}>
+                          {task.status}
+                        </Badge>
+                      </td>
+                      <td>
+                        <Badge bg={task.priority === 'critical' ? 'danger' : 'secondary'}>
+                          {task.priority}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
             </Card.Body>
           </Card>
         </Col>

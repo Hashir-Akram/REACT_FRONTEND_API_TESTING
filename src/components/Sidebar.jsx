@@ -10,6 +10,9 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
   const menuItems = [
     { path: '/dashboard', icon: 'speedometer2', label: 'Dashboard', role: ['admin', 'user'] },
     { path: '/users', icon: 'people', label: 'Users', role: ['admin'] },
+    { path: '/projects', icon: 'kanban', label: 'Projects', role: ['admin', 'user'] },
+    { path: '/tasks', icon: 'list-check', label: 'Tasks', role: ['admin', 'user'] },
+    { path: '/activity', icon: 'activity', label: 'Activity Logs', role: ['admin'] },
     { path: '/profile', icon: 'person', label: 'Profile', role: ['admin', 'user'] },
     { path: '/about', icon: 'info-circle', label: 'About', role: ['admin', 'user'] },
   ];

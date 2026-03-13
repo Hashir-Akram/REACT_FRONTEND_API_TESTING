@@ -103,59 +103,132 @@ const About = () => {
       {/* API Endpoints */}
       <Row className="mb-4">
         <Col>
-          <Card className="border-0 shadow-sm">
+          <h4 className="fw-bold mb-3">
+            <i className="bi bi-diagram-3 me-2 text-info"></i>
+            API Endpoints
+          </h4>
+        </Col>
+      </Row>
+
+      {/* Auth & Profile */}
+      <Row className="mb-3">
+        <Col lg={6} className="mb-3">
+          <Card className="border-0 shadow-sm h-100">
             <Card.Body className="p-4">
-              <h5 className="fw-bold mb-3">
-                <i className="bi bi-diagram-3 me-2 text-info"></i>
-                API Endpoints
-              </h5>
-              <Row>
-                <Col md={6}>
-                  <h6 className="fw-semibold mb-2">Authentication</h6>
-                  <ul className="list-unstyled mb-4">
-                    <li className="mb-2">
-                      <span className="badge bg-success">POST</span> /login - User authentication
-                    </li>
-                  </ul>
+              <h6 className="fw-bold text-primary mb-3">
+                <i className="bi bi-shield-lock me-2"></i>Authentication
+              </h6>
+              <ul className="list-unstyled mb-0">
+                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/register — Register new user</li>
+                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/login — User login (returns JWT)</li>
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/me — Get current user profile</li>
+                <li className="mb-0"><span className="badge bg-warning text-dark me-2">PUT</span>/me — Update current user profile</li>
+              </ul>
+            </Card.Body>
+          </Card>
+        </Col>
 
-                  <h6 className="fw-semibold mb-2">User Management</h6>
-                  <ul className="list-unstyled mb-0">
-                    <li className="mb-2">
-                      <span className="badge bg-info">GET</span> /users - Get all users
-                    </li>
-                    <li className="mb-2">
-                      <span className="badge bg-info">GET</span> /users/:id - Get user by ID
-                    </li>
-                    <li className="mb-2">
-                      <span className="badge bg-success">POST</span> /users - Create user
-                    </li>
-                    <li className="mb-2">
-                      <span className="badge bg-warning">PUT</span> /users/:id - Update user
-                    </li>
-                  </ul>
-                </Col>
-                <Col md={6}>
-                  <h6 className="fw-semibold mb-2">Protected Operations</h6>
-                  <ul className="list-unstyled mb-4">
-                    <li className="mb-2">
-                      <span className="badge bg-danger">DELETE</span> /users/:id - Delete user (Admin only)
-                    </li>
-                  </ul>
+        {/* User Management */}
+        <Col lg={6} className="mb-3">
+          <Card className="border-0 shadow-sm h-100">
+            <Card.Body className="p-4">
+              <h6 className="fw-bold text-primary mb-3">
+                <i className="bi bi-people me-2"></i>User Management
+              </h6>
+              <ul className="list-unstyled mb-0">
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/users — List all users (paginated)</li>
+                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/users — Create user <span className="text-muted small">(Admin)</span></li>
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/users/:id — Get user by ID</li>
+                <li className="mb-2"><span className="badge bg-warning text-dark me-2">PUT</span>/users/:id — Update user</li>
+                <li className="mb-0"><span className="badge bg-danger me-2">DELETE</span>/users/:id — Delete user <span className="text-muted small">(Admin)</span></li>
+              </ul>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
 
-                  <h6 className="fw-semibold mb-2">Utilities</h6>
-                  <ul className="list-unstyled mb-0">
-                    <li className="mb-2">
-                      <span className="badge bg-info">GET</span> /health - Health check
-                    </li>
-                    <li className="mb-2">
-                      <span className="badge bg-success">POST</span> /reset - Reset database
-                    </li>
-                    <li className="mb-2">
-                      <span className="badge bg-info">GET</span> /error - Simulate error
-                    </li>
-                  </ul>
-                </Col>
-              </Row>
+      {/* Projects & Tasks */}
+      <Row className="mb-3">
+        <Col lg={6} className="mb-3">
+          <Card className="border-0 shadow-sm h-100">
+            <Card.Body className="p-4">
+              <h6 className="fw-bold text-primary mb-3">
+                <i className="bi bi-kanban me-2"></i>Projects
+              </h6>
+              <ul className="list-unstyled mb-0">
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/projects — List all projects</li>
+                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/projects — Create project</li>
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/projects/:id — Get project by ID</li>
+                <li className="mb-2"><span className="badge bg-warning text-dark me-2">PUT</span>/projects/:id — Update project</li>
+                <li className="mb-2"><span className="badge bg-secondary me-2">PATCH</span>/projects/:id/archive — Archive project</li>
+                <li className="mb-0"><span className="badge bg-danger me-2">DELETE</span>/projects/:id — Delete project <span className="text-muted small">(Admin)</span></li>
+              </ul>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col lg={6} className="mb-3">
+          <Card className="border-0 shadow-sm h-100">
+            <Card.Body className="p-4">
+              <h6 className="fw-bold text-primary mb-3">
+                <i className="bi bi-list-check me-2"></i>Tasks
+              </h6>
+              <ul className="list-unstyled mb-0">
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/tasks — List all tasks (filterable)</li>
+                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/tasks — Create task</li>
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/tasks/:id — Get task by ID</li>
+                <li className="mb-2"><span className="badge bg-warning text-dark me-2">PUT</span>/tasks/:id — Update task</li>
+                <li className="mb-2"><span className="badge bg-secondary me-2">PATCH</span>/tasks/:id/status — Update task status</li>
+                <li className="mb-2"><span className="badge bg-secondary me-2">PATCH</span>/tasks/bulk-update — Bulk update tasks</li>
+                <li className="mb-0"><span className="badge bg-danger me-2">DELETE</span>/tasks/:id — Delete task</li>
+              </ul>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Comments, Analytics, Utilities */}
+      <Row className="mb-4">
+        <Col lg={4} className="mb-3">
+          <Card className="border-0 shadow-sm h-100">
+            <Card.Body className="p-4">
+              <h6 className="fw-bold text-primary mb-3">
+                <i className="bi bi-chat-left-text me-2"></i>Comments
+              </h6>
+              <ul className="list-unstyled mb-0">
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/tasks/:id/comments — List comments</li>
+                <li className="mb-2"><span className="badge bg-success me-2">POST</span>/tasks/:id/comments — Add comment</li>
+                <li className="mb-0"><span className="badge bg-danger me-2">DELETE</span>/comments/:id — Delete comment</li>
+              </ul>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col lg={4} className="mb-3">
+          <Card className="border-0 shadow-sm h-100">
+            <Card.Body className="p-4">
+              <h6 className="fw-bold text-primary mb-3">
+                <i className="bi bi-bar-chart me-2"></i>Analytics & Audit
+              </h6>
+              <ul className="list-unstyled mb-0">
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/analytics/summary — Dashboard stats</li>
+                <li className="mb-0"><span className="badge bg-info me-2">GET</span>/audit-logs — Activity audit trail</li>
+              </ul>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col lg={4} className="mb-3">
+          <Card className="border-0 shadow-sm h-100">
+            <Card.Body className="p-4">
+              <h6 className="fw-bold text-primary mb-3">
+                <i className="bi bi-tools me-2"></i>Utilities
+              </h6>
+              <ul className="list-unstyled mb-0">
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/health — API health check</li>
+                <li className="mb-2"><span className="badge bg-info me-2">GET</span>/error — Simulate server error</li>
+                <li className="mb-0"><span className="badge bg-success me-2">POST</span>/reset — Reset database to seed data</li>
+              </ul>
             </Card.Body>
           </Card>
         </Col>

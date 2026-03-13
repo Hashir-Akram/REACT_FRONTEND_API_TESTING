@@ -1,63 +1,119 @@
-# API Backend Dashboard - Frontend
+# React Frontend — API Testing Dashboard
 
-A modern React + Vite application with Bootstrap UI for the API Backend system. Features JWT authentication, role-based dashboards, and complete user management.
+A modern React + Vite frontend for the API Backend system. Provides a full UI for JWT authentication, user management, projects, tasks, and analytics with role-based dashboards.
 
-## Features
+---
 
-- 🔐 **JWT Authentication** - Secure login with token-based authentication
-- 👥 **User Management** - Full CRUD operations (admin only)
-- 🎨 **Modern UI** - Bootstrap 5 with responsive design
-- 🚀 **Fast Development** - Vite for instant HMR
-- 📱 **Responsive** - Works on desktop, tablet, and mobile
-- 🔒 **Role-Based Access** - Admin and user dashboards
-- 🎯 **Protected Routes** - Automatic authentication checks
+## 🔗 Related Repository
 
-## Tech Stack
+**Flask Backend API:** Clone and run the backend before starting the frontend.
 
-- **React 18.2** - UI framework
-- **Vite 5.0** - Build tool
-- **React Router 6.21** - Client-side routing
-- **Bootstrap 5.3** - CSS framework
-- **React-Bootstrap 2.9** - Bootstrap components for React
-- **Axios 1.6** - HTTP client
-- **jwt-decode 4.0** - JWT token parsing
+---
 
-## Prerequisites
+## 🚀 Getting Started
 
-- Node.js 18+ installed
-- Backend API running on http://127.0.0.1:5000
-- npm or yarn package manager
+### Prerequisites
+- Node.js 18+
+- npm
+- Backend API running at **http://localhost:5000**
 
-## Installation
+### Setup
 
-1. Navigate to the frontend directory:
 ```bash
-cd frontend
-```
+# 1. Clone this repo
+git clone https://github.com/Hashir-Akram/REACT_FRONTEND_API_TESTING.git
+cd REACT_FRONTEND_API_TESTING
 
-2. Install dependencies:
-```bash
+# 2. Install dependencies
 npm install
-```
 
-3. Start the development server:
-```bash
+# 3. Create environment file
+echo VITE_API_URL=http://localhost:5000 > .env
+
+# 4. Start the dev server
 npm run dev
 ```
 
-4. Open your browser to:
+Open **http://localhost:5173** in your browser.
+
+---
+
+## 🔑 Demo Credentials
+
+| Role  | Email             | Password  |
+|-------|-------------------|-----------|
+| Admin | admin@example.com | Admin@123 |
+| User  | john@example.com  | John@123  |
+
+---
+
+## 📄 Pages
+
+| Page            | Path              | Access        |
+|-----------------|-------------------|---------------|
+| Login           | /login            | Public        |
+| Dashboard       | /dashboard        | All users     |
+| Profile         | /profile          | All users     |
+| Projects        | /projects         | All users     |
+| Tasks           | /tasks            | All users     |
+| Users           | /users            | Admin only    |
+| Activity Logs   | /activity-logs    | Admin only    |
+| About           | /about            | All users     |
+
+---
+
+## 🛠 Tech Stack
+
+- **React 18** — UI framework
+- **Vite 5** — Build tool with HMR
+- **React Router 6** — Client-side routing
+- **Bootstrap 5 + React-Bootstrap** — UI components
+- **Axios** — HTTP client
+- **jwt-decode** — JWT token parsing
+
+---
+
+## 📁 Project Structure
+
 ```
-http://localhost:5173
+src/
+├── main.jsx              # App entry point
+├── App.jsx               # Routes & layout
+├── context/
+│   └── AuthContext.jsx   # Auth state & JWT handling
+├── services/
+│   └── api.js            # Axios instance & interceptors
+├── components/
+│   ├── Navbar.jsx
+│   ├── Sidebar.jsx
+│   ├── Layout.jsx
+│   ├── PrivateRoute.jsx
+│   ├── AdminDashboard.jsx
+│   └── UserDashboard.jsx
+└── pages/
+    ├── Login.jsx
+    ├── Dashboard.jsx
+    ├── Profile.jsx
+    ├── Projects.jsx
+    ├── Tasks.jsx
+    ├── Users.jsx
+    ├── ActivityLogs.jsx
+    ├── About.jsx
+    └── NotFound.jsx
 ```
 
-## Demo Credentials
+---
 
-### Admin Account
-- Email: `admin@example.com`
-- Password: `Admin@123`
+## ⚙️ Environment Variables
 
-### User Account
-- Email: `john@example.com`
+| Variable        | Default                   | Description              |
+|-----------------|---------------------------|--------------------------|
+| VITE_API_URL    | http://localhost:5000     | Backend API base URL     |
+
+Create a `.env` file in the root with your backend URL:
+```
+VITE_API_URL=http://localhost:5000
+```
 - Password: `User@123`
 
 ## Available Scripts

@@ -17,17 +17,8 @@ const Dashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const usersResponse = await apiService.getUsers();
-      const users = usersResponse.data.data.users;
-      
-      const statsData = {
-        totalUsers: users.length,
-        adminUsers: users.filter(u => u.role === 'admin').length,
-        regularUsers: users.filter(u => u.role === 'user').length,
-        recentUsers: users.slice(-5).reverse(),
-      };
-      
-      setStats(statsData);
+      const response = await apiService.getAnalyticsSummary();
+      setStats(response.data.data);
       setLoading(false);
     } catch (err) {
       setError('Failed to load dashboard data');

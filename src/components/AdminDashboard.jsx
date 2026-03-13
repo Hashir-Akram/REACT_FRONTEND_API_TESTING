@@ -7,30 +7,26 @@ const AdminDashboard = ({ stats, refreshStats }) => {
   const statsCards = [
     {
       title: 'Total Users',
-      value: stats?.totalUsers || 0,
+      value: stats?.users?.total || 0,
       icon: 'people',
-      color: 'primary',
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
     },
     {
-      title: 'Admin Users',
-      value: stats?.adminUsers || 0,
-      icon: 'person-badge',
-      color: 'danger',
+      title: 'Projects',
+      value: stats?.projects?.total || 0,
+      icon: 'kanban',
       gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
     },
     {
-      title: 'Regular Users',
-      value: stats?.regularUsers || 0,
-      icon: 'person',
-      color: 'success',
+      title: 'Tasks',
+      value: stats?.tasks?.total || 0,
+      icon: 'list-check',
       gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
     },
     {
-      title: 'System Status',
-      value: 'Online',
-      icon: 'check-circle',
-      color: 'info',
+      title: 'Critical Tasks',
+      value: stats?.tasks?.critical || 0,
+      icon: 'exclamation-octagon',
       gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
     },
   ];
@@ -77,17 +73,24 @@ const AdminDashboard = ({ stats, refreshStats }) => {
               <div className="d-flex gap-2 flex-wrap">
                 <Button
                   variant="primary"
-                  onClick={() => navigate('/users')}
+                  onClick={() => navigate('/projects')}
                 >
-                  <i className="bi bi-people me-2"></i>
-                  Manage Users
+                  <i className="bi bi-kanban me-2"></i>
+                  Manage Projects
                 </Button>
                 <Button
                   variant="success"
-                  onClick={() => navigate('/users')}
+                  onClick={() => navigate('/tasks')}
                 >
-                  <i className="bi bi-person-plus me-2"></i>
-                  Add New User
+                  <i className="bi bi-list-check me-2"></i>
+                  Manage Tasks
+                </Button>
+                <Button
+                  variant="dark"
+                  onClick={() => navigate('/activity')}
+                >
+                  <i className="bi bi-activity me-2"></i>
+                  View Activity
                 </Button>
                 <Button
                   variant="info"
@@ -102,39 +105,109 @@ const AdminDashboard = ({ stats, refreshStats }) => {
         </Col>
       </Row>
 
-      {/* Recent Users */}
       <Row>
-        <Col>
+        <Col lg={6} className="mb-4">
           <Card className="border-0 shadow-sm">
             <Card.Body>
               <h5 className="fw-bold mb-3">
-                <i className="bi bi-clock-history me-2 text-primary"></i>
-                Recent Users
+                <i className="bi bi-kanban me-2 text-primary"></i>
+                Recent Projects
               </h5>
               <Table responsive hover>
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Age</th>
-                    <th>Created At</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Owner</th>
+                    <th>Tasks</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {stats?.recentUsers?.map((user) => (
-                    <tr key={user.id}>
-                      <td>{user.id}</td>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
+                  {stats?.projects?.recent?.map((project) => (
+                    <tr key={project.id}>
+                      <td>{project.id}</td>
+                      <td>{project.title}</td>
                       <td>
-                        <Badge bg={user.role === 'admin' ? 'danger' : 'secondary'}>
-                          {user.role}
+                        <Badge bg={project.status === 'active' ? 'success' : 'secondary'}>
+                          {project.status}
                         </Badge>
                       </td>
-                      <td>{user.age}</td>
-                      <td>{new Date(user.created_at).toLocaleString()}</td>
+                      <td>{project.owner_name}</td>
+                      <td>{project.task_count}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col lg={6} className="mb-4">
+          <Card className="border-0 shadow-sm h-100">
+            <Card.Body>
+              <h5 className="fw-bold mb-3">
+                <i className="bi bi-list-check me-2 text-success"></i>
+                Recent Tasks
+              </h5>
+              <Table responsive hover>
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats?.tasks?.recent?.map((task) => (
+                    <tr key={task.id}>
+                      <td>
+                        <div className="fw-semibold">{task.title}</div>
+                        <small className="text-muted">{task.project_title}</small>
+                      </td>
+                      <td>
+                        <Badge bg={task.status === 'done' ? 'success' : task.status === 'blocked' ? 'danger' : 'warning'}>
+                          {task.status}
+                        </Badge>
+                      </td>
+                      <td>
+                        <Badge bg={task.priority === 'critical' ? 'danger' : 'secondary'}>
+                          {task.priority}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <Card className="border-0 shadow-sm">
+            <Card.Body>
+              <h5 className="fw-bold mb-3">
+                <i className="bi bi-activity me-2 text-dark"></i>
+                Latest Audit Activity
+              </h5>
+              <Table responsive hover>
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Entity</th>
+                    <th>Actor</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats?.audit_logs?.map((log) => (
+                    <tr key={log.id}>
+                      <td>{log.action}</td>
+                      <td>{log.entity_type}</td>
+                      <td>{log.actor_name || 'System'}</td>
+                      <td>{new Date(log.created_at).toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>

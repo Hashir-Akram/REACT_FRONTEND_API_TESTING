@@ -6,6 +6,9 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Users from './pages/Users'
 import Profile from './pages/Profile'
+import Projects from './pages/Projects'
+import Tasks from './pages/Tasks'
+import ActivityLogs from './pages/ActivityLogs'
 import About from './pages/About'
 import NotFound from './pages/NotFound'
 
@@ -23,6 +26,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/users" element={<Users />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/activity" element={<ActivityLogs />} />
             <Route path="/about" element={<About />} />
           </Route>
           

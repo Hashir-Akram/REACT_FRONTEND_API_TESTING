@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
 import apiService from '../services/api';
 
 const Profile = () => {
   const { user, updateUser } = useAuth();
+  const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -15,6 +16,29 @@ const Profile = () => {
     password: '',
     confirmPassword: ''
   });
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const response = await apiService.getMe();
+        const profile = response.data.data;
+        updateUser(profile);
+        setFormData({
+          name: profile?.name || '',
+          email: profile?.email || '',
+          age: profile?.age || '',
+          password: '',
+          confirmPassword: ''
+        });
+      } catch (err) {
+        setError('Failed to load profile');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, [updateUser]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +61,7 @@ const Profile = () => {
         updateData.password = formData.password;
       }
 
-      const response = await apiService.updateUser(user.id, updateData);
+      const response = await apiService.updateMe(updateData);
       updateUser(response.data.data);
       setSuccess('Profile updated successfully!');
       setEditing(false);
@@ -50,6 +74,12 @@ const Profile = () => {
 
   return (
     <Container fluid>
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '400px' }}>
+          <div className="spinner-border text-primary"></div>
+        </div>
+      ) : (
+        <>
       <Row className="mb-4">
         <Col>
           <h2 className="fw-bold">
@@ -243,6 +273,8 @@ const Profile = () => {
           </Card>
         </Col>
       </Row>
+        </>
+      )}
     </Container>
   );
 };
