@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
 import apiService from '../services/api';
@@ -110,6 +110,7 @@ const Profile = () => {
                 <h5 className="fw-bold mb-0">Profile Information</h5>
                 {!editing && (
                   <Button
+                    id="profile-edit-btn"
                     variant="outline-primary"
                     size="sm"
                     onClick={() => setEditing(true)}
@@ -124,15 +125,15 @@ const Profile = () => {
                 <div>
                   <div className="mb-3 pb-3 border-bottom">
                     <label className="text-muted small">Name</label>
-                    <p className="fw-semibold mb-0">{user?.name}</p>
+                    <p id="profile-name-value" className="fw-semibold mb-0">{user?.name}</p>
                   </div>
                   <div className="mb-3 pb-3 border-bottom">
                     <label className="text-muted small">Email</label>
-                    <p className="fw-semibold mb-0">{user?.email}</p>
+                    <p id="profile-email-value" className="fw-semibold mb-0">{user?.email}</p>
                   </div>
                   <div className="mb-3 pb-3 border-bottom">
                     <label className="text-muted small">Age</label>
-                    <p className="fw-semibold mb-0">{user?.age}</p>
+                    <p id="profile-age-value" className="fw-semibold mb-0">{user?.age}</p>
                   </div>
                   <div className="mb-3 pb-3 border-bottom">
                     <label className="text-muted small">Role</label>
@@ -144,14 +145,15 @@ const Profile = () => {
                   </div>
                   <div className="mb-0">
                     <label className="text-muted small">User ID</label>
-                    <p className="fw-semibold mb-0">{user?.id}</p>
+                    <p id="profile-user-id-value" className="fw-semibold mb-0">{user?.id}</p>
                   </div>
                 </div>
               ) : (
-                <Form onSubmit={handleSubmit}>
+                <Form id="profile-form" onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>Name</Form.Label>
                     <Form.Control
+                      id="profile-name-input"
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -163,6 +165,7 @@ const Profile = () => {
                   <Form.Group className="mb-3">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
+                      id="profile-email-input"
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -173,6 +176,7 @@ const Profile = () => {
                   <Form.Group className="mb-3">
                     <Form.Label>Age</Form.Label>
                     <Form.Control
+                      id="profile-age-input"
                       type="number"
                       value={formData.age}
                       onChange={(e) => setFormData({ ...formData, age: e.target.value })}
@@ -188,6 +192,7 @@ const Profile = () => {
                   <Form.Group className="mb-3">
                     <Form.Label>New Password</Form.Label>
                     <Form.Control
+                      id="profile-password-input"
                       type="password"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -202,6 +207,7 @@ const Profile = () => {
                   <Form.Group className="mb-4">
                     <Form.Label>Confirm New Password</Form.Label>
                     <Form.Control
+                      id="profile-confirm-password-input"
                       type="password"
                       value={formData.confirmPassword}
                       onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -211,11 +217,12 @@ const Profile = () => {
                   </Form.Group>
 
                   <div className="d-flex gap-2">
-                    <Button variant="primary" type="submit">
+                    <Button id="profile-save-btn" variant="primary" type="submit">
                       <i className="bi bi-check-circle me-2"></i>
                       Save Changes
                     </Button>
                     <Button
+                      id="profile-cancel-btn"
                       variant="secondary"
                       onClick={() => {
                         setEditing(false);
@@ -280,3 +287,4 @@ const Profile = () => {
 };
 
 export default Profile;
+

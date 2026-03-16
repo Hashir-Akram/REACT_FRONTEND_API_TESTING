@@ -72,6 +72,7 @@ const AdminDashboard = ({ stats, refreshStats }) => {
               </h5>
               <div className="d-flex gap-2 flex-wrap">
                 <Button
+                  id="dashboard-manage-projects-btn"
                   variant="primary"
                   onClick={() => navigate('/projects')}
                 >
@@ -79,6 +80,7 @@ const AdminDashboard = ({ stats, refreshStats }) => {
                   Manage Projects
                 </Button>
                 <Button
+                  id="dashboard-manage-tasks-btn"
                   variant="success"
                   onClick={() => navigate('/tasks')}
                 >
@@ -86,6 +88,7 @@ const AdminDashboard = ({ stats, refreshStats }) => {
                   Manage Tasks
                 </Button>
                 <Button
+                  id="dashboard-view-activity-btn"
                   variant="dark"
                   onClick={() => navigate('/activity')}
                 >
@@ -93,6 +96,7 @@ const AdminDashboard = ({ stats, refreshStats }) => {
                   View Activity
                 </Button>
                 <Button
+                  id="dashboard-refresh-data-btn"
                   variant="info"
                   onClick={refreshStats}
                 >

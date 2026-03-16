@@ -1,4 +1,5 @@
-import { Container, Row, Col, Card, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   const features = [
@@ -15,6 +16,44 @@ const About = () => {
     { category: 'Frontend', items: ['React 18', 'Vite 5', 'React Router', 'Bootstrap 5'] },
     { category: 'Database', items: ['SQLite', 'Thread-safe operations'] },
     { category: 'Security', items: ['JWT tokens', 'Password hashing', 'CORS enabled'] },
+  ];
+
+  const platformDetails = [
+    {
+      title: 'What This Platform Is',
+      icon: 'mortarboard',
+      items: [
+        'A target application for API and UI automation practice',
+        'Learners build their own frameworks (Playwright, Cypress, Selenium, pytest, Postman, REST Assured)',
+        'Includes realistic success/failure states for robust test design',
+      ],
+    },
+    {
+      title: 'UI Practice Areas',
+      icon: 'window-stack',
+      items: [
+        'Form Elements Zoo: all key form controls and states',
+        'Dynamic Widgets: loaders, toasts, countdowns, tabs, accordion',
+        'Drag & Upload: drag-drop ordering + upload workflows',
+        'Broken UI Challenge: intentional defects for bug discovery',
+      ],
+    },
+    {
+      title: 'API Practice Areas',
+      icon: 'terminal',
+      items: [
+        'Auth and RBAC flows: register, login, profile, admin-only routes',
+        'Behavior endpoints: echo, status, delay, flaky, headers, paginate',
+        'Versioning endpoints: v1 vs v2 user payloads',
+        'Sanity endpoint for SQL injection and XSS payload detection',
+      ],
+    },
+  ];
+
+  const defaultAccounts = [
+    { role: 'Admin', email: 'admin@example.com', password: 'Admin@123' },
+    { role: 'User', email: 'john@example.com', password: 'User@123' },
+    { role: 'Tester', email: 'sara@example.com', password: 'Tester@123' },
   ];
 
   const endpointCards = [
@@ -343,6 +382,46 @@ const About = () => {
         </Col>
       </Row>
 
+      {/* Testing Documentation */}
+      <Row className="mb-4">
+        <Col>
+          <Card className="border-0 shadow-sm">
+            <Card.Body className="p-4">
+              <h5 className="fw-bold mb-3">
+                <i className="bi bi-journal-text me-2 text-primary"></i>
+                Testing Documentation
+              </h5>
+              <p className="text-muted mb-3">
+                Use these two documents as your complete testing guide for the platform.
+              </p>
+              <div className="d-flex gap-2 flex-wrap mb-3">
+                <Button
+                  id="about-open-frontend-test-docs-btn"
+                  as={Link}
+                  to="/frontend-test-cases"
+                  variant="primary"
+                >
+                  <i className="bi bi-window me-2"></i>
+                  Open Frontend Test Cases Page
+                </Button>
+                <Button
+                  id="about-open-backend-test-docs-btn"
+                  as={Link}
+                  to="/backend-test-cases"
+                  variant="outline-primary"
+                >
+                  <i className="bi bi-server me-2"></i>
+                  Open Backend Test Cases Page
+                </Button>
+              </div>
+              <div className="small text-muted">
+                Backend test cases file: <code>BACKEND_TEST_CASES_COMPLETE.md</code>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
       {/* Features */}
       <Row className="mb-4">
         <Col>
@@ -389,6 +468,66 @@ const About = () => {
             </Card>
           </Col>
         ))}
+      </Row>
+
+      {/* Platform Coverage */}
+      <Row className="mb-4">
+        <Col>
+          <h4 className="fw-bold mb-3">Platform Coverage</h4>
+        </Col>
+      </Row>
+      <Row className="mb-4">
+        {platformDetails.map((section) => (
+          <Col key={section.title} lg={4} className="mb-3">
+            <Card className="border-0 shadow-sm h-100">
+              <Card.Body>
+                <h6 className="fw-bold text-primary mb-3">
+                  <i className={`bi bi-${section.icon} me-2`}></i>
+                  {section.title}
+                </h6>
+                <ul className="mb-0">
+                  {section.items.map((item) => (
+                    <li key={item} className="mb-2 text-muted">{item}</li>
+                  ))}
+                </ul>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Default Accounts */}
+      <Row className="mb-4">
+        <Col>
+          <Card className="border-0 shadow-sm">
+            <Card.Body className="p-4">
+              <h5 className="fw-bold mb-3">
+                <i className="bi bi-person-badge me-2 text-primary"></i>
+                Default Accounts (Seed Data)
+              </h5>
+              <div className="table-responsive">
+                <table className="table table-sm align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>Role</th>
+                      <th>Email</th>
+                      <th>Password</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {defaultAccounts.map((acc) => (
+                      <tr key={acc.email}>
+                        <td><Badge bg="secondary">{acc.role}</Badge></td>
+                        <td><code>{acc.email}</code></td>
+                        <td><code>{acc.password}</code></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
       </Row>
 
       {/* API Endpoints */}

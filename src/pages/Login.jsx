@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -60,7 +60,7 @@ const Login = () => {
                   </Alert>
                 )}
 
-                <Form onSubmit={handleSubmit}>
+                <Form id="login-form" onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>Email Address</Form.Label>
                     <div className="input-group">
@@ -68,6 +68,7 @@ const Login = () => {
                         <i className="bi bi-envelope"></i>
                       </span>
                       <Form.Control
+                        id="login-email-input"
                         type="email"
                         placeholder="Enter email"
                         value={email}
@@ -84,6 +85,7 @@ const Login = () => {
                         <i className="bi bi-lock"></i>
                       </span>
                       <Form.Control
+                        id="login-password-input"
                         type="password"
                         placeholder="Enter password"
                         value={password}
@@ -94,6 +96,7 @@ const Login = () => {
                   </Form.Group>
 
                   <Button
+                    id="login-submit-btn"
                     variant="primary"
                     type="submit"
                     className="w-100 mb-3"
@@ -121,6 +124,7 @@ const Login = () => {
                   </small>
                   <div className="d-flex gap-2">
                     <Button
+                      id="login-fill-admin-btn"
                       variant="outline-primary"
                       size="sm"
                       onClick={() => fillDemoCredentials('admin')}
@@ -129,6 +133,7 @@ const Login = () => {
                       Admin
                     </Button>
                     <Button
+                      id="login-fill-user-btn"
                       variant="outline-secondary"
                       size="sm"
                       onClick={() => fillDemoCredentials('user')}
@@ -161,3 +166,4 @@ const Login = () => {
 };
 
 export default Login;
+

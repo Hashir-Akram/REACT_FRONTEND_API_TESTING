@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Alert, Badge, Card, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
 import apiService from '../services/api';
@@ -53,6 +53,7 @@ const ActivityLogs = () => {
       <Card className="border-0 shadow-sm mb-4">
         <Card.Body>
           <Form
+            id="activity-filter-form"
             onSubmit={(event) => {
               event.preventDefault();
               fetchLogs(filters);
@@ -63,6 +64,7 @@ const ActivityLogs = () => {
                 <Form.Group>
                   <Form.Label>Entity Type</Form.Label>
                   <Form.Control
+                    id="activity-entity-type-input"
                     placeholder="user, task, project, comment"
                     value={filters.entity_type}
                     onChange={(event) => setFilters({ ...filters, entity_type: event.target.value })}
@@ -73,6 +75,7 @@ const ActivityLogs = () => {
                 <Form.Group>
                   <Form.Label>Action</Form.Label>
                   <Form.Control
+                    id="activity-action-input"
                     placeholder="created, updated, deleted, login"
                     value={filters.action}
                     onChange={(event) => setFilters({ ...filters, action: event.target.value })}
@@ -80,7 +83,7 @@ const ActivityLogs = () => {
                 </Form.Group>
               </Col>
               <Col md={2} className="d-flex align-items-end">
-                <button className="btn btn-dark w-100" type="submit">Filter</button>
+                <button id="activity-filter-submit-btn" className="btn btn-dark w-100" type="submit">Filter</button>
               </Col>
             </Row>
           </Form>
@@ -126,3 +129,4 @@ const ActivityLogs = () => {
 };
 
 export default ActivityLogs;
+

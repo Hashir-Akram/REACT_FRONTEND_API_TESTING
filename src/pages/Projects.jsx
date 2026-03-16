@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Container, Form, Modal, Row, Table } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
 import apiService from '../services/api';
@@ -115,7 +115,7 @@ const Projects = () => {
           <p className="text-muted">Create, filter, update, archive, and delete projects for end-to-end testing.</p>
         </Col>
         <Col className="text-end">
-          <Button variant="primary" onClick={openCreateModal}>
+          <Button id="projects-new-btn" variant="primary" onClick={openCreateModal}>
             <i className="bi bi-plus-circle me-2"></i>
             New Project
           </Button>
@@ -127,12 +127,13 @@ const Projects = () => {
 
       <Card className="border-0 shadow-sm mb-4">
         <Card.Body>
-          <Form onSubmit={handleFilterSubmit}>
+          <Form id="projects-filter-form" onSubmit={handleFilterSubmit}>
             <Row>
               <Col md={6}>
                 <Form.Group>
                   <Form.Label>Search</Form.Label>
                   <Form.Control
+                    id="projects-filter-search-input"
                     placeholder="Search title or description"
                     value={filters.q}
                     onChange={(event) => setFilters({ ...filters, q: event.target.value })}
@@ -143,6 +144,7 @@ const Projects = () => {
                 <Form.Group>
                   <Form.Label>Status</Form.Label>
                   <Form.Select
+                    id="projects-filter-status-select"
                     value={filters.status}
                     onChange={(event) => setFilters({ ...filters, status: event.target.value })}
                   >
@@ -155,7 +157,7 @@ const Projects = () => {
                 </Form.Group>
               </Col>
               <Col md={2} className="d-flex align-items-end">
-                <Button type="submit" variant="dark" className="w-100">
+                <Button id="projects-filter-submit-btn" type="submit" variant="dark" className="w-100">
                   Filter
                 </Button>
               </Col>
@@ -201,16 +203,16 @@ const Projects = () => {
                     <td>{new Date(project.updated_at).toLocaleString()}</td>
                     <td>
                       <div className="d-flex gap-2">
-                        <Button variant="outline-primary" size="sm" onClick={() => openEditModal(project)}>
+                        <Button id={`projects-edit-btn-${project.id}`} variant="outline-primary" size="sm" onClick={() => openEditModal(project)}>
                           <i className="bi bi-pencil"></i>
                         </Button>
                         {canManageProject(project) && project.status !== 'archived' && (
-                          <Button variant="outline-warning" size="sm" onClick={() => handleArchive(project.id)}>
+                          <Button id={`projects-archive-btn-${project.id}`} variant="outline-warning" size="sm" onClick={() => handleArchive(project.id)}>
                             <i className="bi bi-archive"></i>
                           </Button>
                         )}
                         {canManageProject(project) && (
-                          <Button variant="outline-danger" size="sm" onClick={() => handleDelete(project.id)}>
+                          <Button id={`projects-delete-btn-${project.id}`} variant="outline-danger" size="sm" onClick={() => handleDelete(project.id)}>
                             <i className="bi bi-trash"></i>
                           </Button>
                         )}
@@ -229,10 +231,11 @@ const Projects = () => {
           <Modal.Title>{modalMode === 'create' ? 'New Project' : 'Edit Project'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
+          <Form id="projects-modal-form" onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
               <Form.Control
+                id="projects-title-input"
                 value={formData.title}
                 onChange={(event) => setFormData({ ...formData, title: event.target.value })}
                 required
@@ -241,6 +244,7 @@ const Projects = () => {
             <Form.Group className="mb-3">
               <Form.Label>Description</Form.Label>
               <Form.Control
+                id="projects-description-input"
                 as="textarea"
                 rows={4}
                 value={formData.description}
@@ -251,6 +255,7 @@ const Projects = () => {
             <Form.Group className="mb-4">
               <Form.Label>Status</Form.Label>
               <Form.Select
+                id="projects-status-select"
                 value={formData.status}
                 onChange={(event) => setFormData({ ...formData, status: event.target.value })}
               >
@@ -261,8 +266,8 @@ const Projects = () => {
               </Form.Select>
             </Form.Group>
             <div className="d-flex gap-2">
-              <Button type="submit" variant="primary">Save</Button>
-              <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
+              <Button id="projects-save-btn" type="submit" variant="primary">Save</Button>
+              <Button id="projects-cancel-btn" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
             </div>
           </Form>
         </Modal.Body>
@@ -272,3 +277,4 @@ const Projects = () => {
 };
 
 export default Projects;
+

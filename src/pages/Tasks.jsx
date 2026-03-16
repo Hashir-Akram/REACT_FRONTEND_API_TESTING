@@ -213,7 +213,7 @@ const Tasks = () => {
           <p className="text-muted">Test filtering, sorting, comments, status transitions, and bulk operations.</p>
         </Col>
         <Col className="text-end">
-          <Button variant="primary" onClick={openCreateModal}>
+          <Button id="tasks-new-btn" variant="primary" onClick={openCreateModal}>
             <i className="bi bi-plus-circle me-2"></i>
             New Task
           </Button>
@@ -226,6 +226,7 @@ const Tasks = () => {
       <Card className="border-0 shadow-sm mb-4">
         <Card.Body>
           <Form
+            id="tasks-filter-form"
             onSubmit={(event) => {
               event.preventDefault();
               fetchTasks(filters);
@@ -234,13 +235,14 @@ const Tasks = () => {
             <Row className="g-3">
               <Col md={3}>
                 <Form.Control
+                  id="tasks-filter-search-input"
                   placeholder="Search title, description, tags"
                   value={filters.q}
                   onChange={(event) => setFilters({ ...filters, q: event.target.value })}
                 />
               </Col>
               <Col md={2}>
-                <Form.Select value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}>
+                <Form.Select id="tasks-filter-status-select" value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}>
                   <option value="">All statuses</option>
                   <option value="todo">todo</option>
                   <option value="in_progress">in_progress</option>
@@ -250,7 +252,7 @@ const Tasks = () => {
                 </Form.Select>
               </Col>
               <Col md={2}>
-                <Form.Select value={filters.priority} onChange={(event) => setFilters({ ...filters, priority: event.target.value })}>
+                <Form.Select id="tasks-filter-priority-select" value={filters.priority} onChange={(event) => setFilters({ ...filters, priority: event.target.value })}>
                   <option value="">All priorities</option>
                   <option value="low">low</option>
                   <option value="medium">medium</option>
@@ -259,7 +261,7 @@ const Tasks = () => {
                 </Form.Select>
               </Col>
               <Col md={3}>
-                <Form.Select value={filters.project_id} onChange={(event) => setFilters({ ...filters, project_id: event.target.value })}>
+                <Form.Select id="tasks-filter-project-select" value={filters.project_id} onChange={(event) => setFilters({ ...filters, project_id: event.target.value })}>
                   <option value="">All projects</option>
                   {projects.map((project) => (
                     <option key={project.id} value={project.id}>{project.title}</option>
@@ -268,12 +270,13 @@ const Tasks = () => {
               </Col>
               <Col md={2} className="d-flex align-items-center gap-2">
                 <Form.Check
+                  id="tasks-filter-overdue-check"
                   type="checkbox"
                   label="Overdue"
                   checked={filters.overdue}
                   onChange={(event) => setFilters({ ...filters, overdue: event.target.checked })}
                 />
-                <Button type="submit" variant="dark">Go</Button>
+                <Button id="tasks-filter-submit-btn" type="submit" variant="dark">Go</Button>
               </Col>
             </Row>
           </Form>
@@ -286,7 +289,7 @@ const Tasks = () => {
             <Row className="align-items-end">
               <Col md={6}>
                 <Form.Label>Bulk status update for selected tasks</Form.Label>
-                <Form.Select value={bulkStatus} onChange={(event) => setBulkStatus(event.target.value)}>
+                <Form.Select id="tasks-bulk-status-select" value={bulkStatus} onChange={(event) => setBulkStatus(event.target.value)}>
                   <option value="todo">todo</option>
                   <option value="in_progress">in_progress</option>
                   <option value="in_review">in_review</option>
@@ -298,7 +301,7 @@ const Tasks = () => {
                 <div className="text-muted small">Selected: {selectedTaskIds.length}</div>
               </Col>
               <Col md={3} className="text-end">
-                <Button variant="warning" onClick={handleBulkUpdate}>Apply Bulk Update</Button>
+                <Button id="tasks-bulk-apply-btn" variant="warning" onClick={handleBulkUpdate}>Apply Bulk Update</Button>
               </Col>
             </Row>
           </Card.Body>
@@ -332,6 +335,7 @@ const Tasks = () => {
                     {isAdmin() && (
                       <td>
                         <Form.Check
+                          id={`tasks-select-${task.id}`}
                           checked={selectedTaskIds.includes(task.id)}
                           onChange={(event) => {
                             if (event.target.checked) {
@@ -361,24 +365,24 @@ const Tasks = () => {
                     <td>{task.assigned_to_name || 'Unassigned'}</td>
                     <td>{task.due_date ? new Date(task.due_date).toLocaleDateString() : '-'}</td>
                     <td>
-                      <Button variant="outline-secondary" size="sm" onClick={() => openCommentsModal(task)}>
+                      <Button id={`tasks-comments-btn-${task.id}`} variant="outline-secondary" size="sm" onClick={() => openCommentsModal(task)}>
                         {task.comment_count}
                       </Button>
                     </td>
                     <td>
                       <div className="d-flex flex-wrap gap-2">
                         {canChangeStatus(task) && task.status !== 'done' && (
-                          <Button variant="outline-success" size="sm" onClick={() => handleQuickStatus(task, 'done')}>
+                          <Button id={`tasks-done-btn-${task.id}`} variant="outline-success" size="sm" onClick={() => handleQuickStatus(task, 'done')}>
                             Done
                           </Button>
                         )}
                         {canEditTask(task) && (
-                          <Button variant="outline-primary" size="sm" onClick={() => openEditModal(task)}>
+                          <Button id={`tasks-edit-btn-${task.id}`} variant="outline-primary" size="sm" onClick={() => openEditModal(task)}>
                             Edit
                           </Button>
                         )}
                         {canEditTask(task) && (
-                          <Button variant="outline-danger" size="sm" onClick={() => handleDelete(task.id)}>
+                          <Button id={`tasks-delete-btn-${task.id}`} variant="outline-danger" size="sm" onClick={() => handleDelete(task.id)}>
                             Delete
                           </Button>
                         )}
@@ -397,15 +401,15 @@ const Tasks = () => {
           <Modal.Title>{modalMode === 'create' ? 'New Task' : 'Edit Task'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
+          <Form id="tasks-modal-form" onSubmit={handleSubmit}>
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Label>Title</Form.Label>
-                <Form.Control value={formData.title} onChange={(event) => setFormData({ ...formData, title: event.target.value })} required />
+                <Form.Control id="tasks-title-input" value={formData.title} onChange={(event) => setFormData({ ...formData, title: event.target.value })} required />
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Label>Project</Form.Label>
-                <Form.Select value={formData.project_id} onChange={(event) => setFormData({ ...formData, project_id: event.target.value })} required>
+                <Form.Select id="tasks-project-select" value={formData.project_id} onChange={(event) => setFormData({ ...formData, project_id: event.target.value })} required>
                   <option value="">Select project</option>
                   {projects.map((project) => (
                     <option key={project.id} value={project.id}>{project.title}</option>
@@ -415,12 +419,12 @@ const Tasks = () => {
             </Row>
             <Form.Group className="mb-3">
               <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" rows={4} value={formData.description} onChange={(event) => setFormData({ ...formData, description: event.target.value })} required />
+              <Form.Control id="tasks-description-input" as="textarea" rows={4} value={formData.description} onChange={(event) => setFormData({ ...formData, description: event.target.value })} required />
             </Form.Group>
             <Row>
               <Col md={3} className="mb-3">
                 <Form.Label>Status</Form.Label>
-                <Form.Select value={formData.status} onChange={(event) => setFormData({ ...formData, status: event.target.value })}>
+                <Form.Select id="tasks-status-select" value={formData.status} onChange={(event) => setFormData({ ...formData, status: event.target.value })}>
                   <option value="todo">todo</option>
                   <option value="in_progress">in_progress</option>
                   <option value="in_review">in_review</option>
@@ -430,7 +434,7 @@ const Tasks = () => {
               </Col>
               <Col md={3} className="mb-3">
                 <Form.Label>Priority</Form.Label>
-                <Form.Select value={formData.priority} onChange={(event) => setFormData({ ...formData, priority: event.target.value })}>
+                <Form.Select id="tasks-priority-select" value={formData.priority} onChange={(event) => setFormData({ ...formData, priority: event.target.value })}>
                   <option value="low">low</option>
                   <option value="medium">medium</option>
                   <option value="high">high</option>
@@ -439,7 +443,7 @@ const Tasks = () => {
               </Col>
               <Col md={3} className="mb-3">
                 <Form.Label>Assignee</Form.Label>
-                <Form.Select value={formData.assigned_to} onChange={(event) => setFormData({ ...formData, assigned_to: event.target.value })}>
+                <Form.Select id="tasks-assignee-select" value={formData.assigned_to} onChange={(event) => setFormData({ ...formData, assigned_to: event.target.value })}>
                   <option value="">Unassigned</option>
                   {(isAdmin() ? users : [user]).filter(Boolean).map((option) => (
                     <option key={option.id} value={option.id}>{option.name}</option>
@@ -448,22 +452,22 @@ const Tasks = () => {
               </Col>
               <Col md={3} className="mb-3">
                 <Form.Label>Due Date</Form.Label>
-                <Form.Control type="date" value={formData.due_date} onChange={(event) => setFormData({ ...formData, due_date: event.target.value })} />
+                <Form.Control id="tasks-due-date-input" type="date" value={formData.due_date} onChange={(event) => setFormData({ ...formData, due_date: event.target.value })} />
               </Col>
             </Row>
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Label>Estimated Hours</Form.Label>
-                <Form.Control type="number" min="0" step="0.5" value={formData.estimated_hours} onChange={(event) => setFormData({ ...formData, estimated_hours: event.target.value })} />
+                <Form.Control id="tasks-estimated-hours-input" type="number" min="0" step="0.5" value={formData.estimated_hours} onChange={(event) => setFormData({ ...formData, estimated_hours: event.target.value })} />
               </Col>
               <Col md={8} className="mb-3">
                 <Form.Label>Tags</Form.Label>
-                <Form.Control value={formData.tags} onChange={(event) => setFormData({ ...formData, tags: event.target.value })} placeholder="api, regression, auth" />
+                <Form.Control id="tasks-tags-input" value={formData.tags} onChange={(event) => setFormData({ ...formData, tags: event.target.value })} placeholder="api, regression, auth" />
               </Col>
             </Row>
             <div className="d-flex gap-2">
-              <Button type="submit" variant="primary">Save Task</Button>
-              <Button variant="secondary" onClick={() => setShowTaskModal(false)}>Cancel</Button>
+              <Button id="tasks-save-btn" type="submit" variant="primary">Save Task</Button>
+              <Button id="tasks-cancel-btn" variant="secondary" onClick={() => setShowTaskModal(false)}>Cancel</Button>
             </div>
           </Form>
         </Modal.Body>
@@ -484,7 +488,7 @@ const Tasks = () => {
                       <small className="text-muted">{new Date(comment.created_at).toLocaleString()}</small>
                     </div>
                     {(isAdmin() || comment.author_id === user?.id) && (
-                      <Button variant="outline-danger" size="sm" onClick={() => handleDeleteComment(comment.id)}>
+                      <Button id={`tasks-comment-delete-btn-${comment.id}`} variant="outline-danger" size="sm" onClick={() => handleDeleteComment(comment.id)}>
                         Delete
                       </Button>
                     )}
@@ -496,9 +500,9 @@ const Tasks = () => {
           </div>
           <Form.Group className="mb-3">
             <Form.Label>Add Comment</Form.Label>
-            <Form.Control as="textarea" rows={3} value={commentText} onChange={(event) => setCommentText(event.target.value)} />
+            <Form.Control id="tasks-comment-input" as="textarea" rows={3} value={commentText} onChange={(event) => setCommentText(event.target.value)} />
           </Form.Group>
-          <Button variant="primary" onClick={handleAddComment}>Add Comment</Button>
+          <Button id="tasks-comment-add-btn" variant="primary" onClick={handleAddComment}>Add Comment</Button>
         </Modal.Body>
       </Modal>
     </Container>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Button, Badge, Modal, Form, Alert } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
 import apiService from '../services/api';
@@ -132,7 +132,7 @@ const Users = () => {
           <p className="text-muted">Manage all users in the system</p>
         </Col>
         <Col className="text-end">
-          <Button variant="primary" onClick={() => handleShowModal('add')}>
+          <Button id="users-add-btn" variant="primary" onClick={() => handleShowModal('add')}>
             <i className="bi bi-person-plus me-2"></i>
             Add New User
           </Button>
@@ -183,6 +183,7 @@ const Users = () => {
                   <td>{new Date(user.created_at).toLocaleDateString()}</td>
                   <td>
                     <Button
+                      id={`users-edit-btn-${user.id}`}
                       variant="outline-primary"
                       size="sm"
                       className="me-2"
@@ -191,6 +192,7 @@ const Users = () => {
                       <i className="bi bi-pencil"></i>
                     </Button>
                     <Button
+                      id={`users-delete-btn-${user.id}`}
                       variant="outline-danger"
                       size="sm"
                       onClick={() => handleDelete(user.id)}
@@ -214,10 +216,11 @@ const Users = () => {
         </Modal.Header>
         <Modal.Body>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
+          <Form id="users-modal-form" onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
               <Form.Control
+                id="users-name-input"
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -229,6 +232,7 @@ const Users = () => {
             <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
+                id="users-email-input"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -239,6 +243,7 @@ const Users = () => {
             <Form.Group className="mb-3">
               <Form.Label>Age</Form.Label>
               <Form.Control
+                id="users-age-input"
                 type="number"
                 value={formData.age}
                 onChange={(e) => setFormData({ ...formData, age: e.target.value })}
@@ -252,6 +257,7 @@ const Users = () => {
                 Password {modalMode === 'edit' && '(leave blank to keep current)'}
               </Form.Label>
               <Form.Control
+                id="users-password-input"
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -266,6 +272,7 @@ const Users = () => {
             <Form.Group className="mb-3">
               <Form.Label>Role</Form.Label>
               <Form.Select
+                id="users-role-select"
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               >
@@ -275,11 +282,11 @@ const Users = () => {
             </Form.Group>
 
             <div className="d-flex gap-2">
-              <Button variant="primary" type="submit">
+              <Button id="users-save-btn" variant="primary" type="submit">
                 <i className="bi bi-check-circle me-2"></i>
                 {modalMode === 'add' ? 'Create User' : 'Update User'}
               </Button>
-              <Button variant="secondary" onClick={handleCloseModal}>
+              <Button id="users-cancel-btn" variant="secondary" onClick={handleCloseModal}>
                 Cancel
               </Button>
             </div>
@@ -291,3 +298,4 @@ const Users = () => {
 };
 
 export default Users;
+

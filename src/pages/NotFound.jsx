@@ -13,6 +13,7 @@ const NotFound = () => {
           The page you're looking for doesn't exist or has been moved.
         </p>
         <Button
+          id="not-found-back-dashboard-btn"
           variant="primary"
           size="lg"
           onClick={() => navigate('/dashboard')}

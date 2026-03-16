@@ -12,18 +12,19 @@ const Navbar = () => {
   };
 
   return (
-    <BSNavbar bg="white" expand="lg" className="shadow-sm">
+    <BSNavbar id="top-navbar" bg="white" expand="lg" className="shadow-sm">
       <Container fluid>
-        <BSNavbar.Brand className="fw-bold text-primary">
+        <BSNavbar.Brand id="top-navbar-brand" className="fw-bold text-primary">
           <i className="bi bi-speedometer2 me-2"></i>
           Dashboard
         </BSNavbar.Brand>
         
-        <BSNavbar.Toggle />
+        <BSNavbar.Toggle id="top-navbar-toggle" />
         
         <BSNavbar.Collapse className="justify-content-end">
           <Nav>
             <NavDropdown
+              id="top-navbar-user-menu"
               title={
                 <>
                   <i className="bi bi-person-circle me-2"></i>
@@ -33,12 +34,12 @@ const Navbar = () => {
               }
               align="end"
             >
-              <NavDropdown.Item onClick={() => navigate('/profile')}>
+              <NavDropdown.Item id="top-navbar-profile-item" onClick={() => navigate('/profile')}>
                 <i className="bi bi-person me-2"></i>
                 My Profile
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogout} className="text-danger">
+              <NavDropdown.Item id="top-navbar-logout-item" onClick={handleLogout} className="text-danger">
                 <i className="bi bi-box-arrow-right me-2"></i>
                 Logout
               </NavDropdown.Item>
